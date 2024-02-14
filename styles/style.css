@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@100..900&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+.font-anton {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-inter {
+  font-family: "Inter", sans-serif;
+}
+
+.font-poppins {
+  font-family: "Poppins", sans-serif;
+}
