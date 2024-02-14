@@ -20,7 +20,7 @@ console.log("something");
 const num = randomAlpha() + 65;
 let temp = (parseInt(Math.floor(Math.random()*100))&1?num:(num+32));
 let val = String.fromCharCode(temp);
-let temp2,col;
+let col,valTemp;
 
 // console.log(val,num);
 alpha.innerText = val;
@@ -31,18 +31,18 @@ function myEventHandler(event) {
 //   console.log('your input is ',keyCode,'and value is : ',val);
 
   if (keyCode !== "Shift") {
-    if(typeof temp2 !== 'undefined'){
-        console.log('temp2 : ',temp2,'& type is : ',typeof temp2);
-        const keycol = document.getElementById(temp2);
+    if(typeof valTemp !== 'undefined'){
+        // console.log('temp2 : ',temp2,'& type is : ',typeof temp2);
+        const keycol = document.getElementById(valTemp);
         keycol.classList.remove(col);
     }
     
     if (keyCode === val) {
       score++;
-      val = val.toLowerCase();
+      valTemp = val.toLowerCase();
       col = 'bg-green-500';
-      document.getElementById(val).classList.add(col);
-      temp2 = val;
+      document.getElementById(valTemp).classList.add(col);
+    //   temp2 = val;
       console.log("you are correct.", keyCode);
       const num1 = randomAlpha() + 65;
       let temp = (parseInt(Math.floor(Math.random()*100))&1?num1:(num1+32));
@@ -52,17 +52,17 @@ function myEventHandler(event) {
       alpha.innerText = val;
     } else if (--life) {
       lifeNow.innerText = life;
-    //   val = keyCode.toLowerCase();
+      valTemp = keyCode.toLowerCase();
       col = 'bg-red-500';
-      document.getElementById(keyCode).classList.add(col);
-      temp2 = keyCode;
+      document.getElementById(valTemp).classList.add(col);
+    //   temp2 = val;
     } else {
     //   console.log("you are not correct.", keyCode);
       totalScore.innerText = score;
-    //   val = keyCode.toLowerCase();
+      valTemp = keyCode.toLowerCase();
       col = 'bg-red-500';
-      document.getElementById(keyCode).classList.add(col);
-      temp2 = keyCode;
+      document.getElementById(valTemp).classList.add(col);
+    //   temp2 = val;
       score = 0;
       hideElementByID("play-ground");
       visibleElementByID("score-board");
