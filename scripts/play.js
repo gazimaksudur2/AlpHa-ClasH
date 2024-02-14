@@ -52,17 +52,17 @@ function myEventHandler(event) {
       alpha.innerText = val;
     } else if (--life) {
       lifeNow.innerText = life;
-      val = keyCode.toLowerCase();
+    //   val = keyCode.toLowerCase();
       col = 'bg-red-500';
-      document.getElementById(val).classList.add(col);
-      temp2 = val;
+      document.getElementById(keyCode).classList.add(col);
+      temp2 = keyCode;
     } else {
     //   console.log("you are not correct.", keyCode);
       totalScore.innerText = score;
-      val = keyCode.toLowerCase();
+    //   val = keyCode.toLowerCase();
       col = 'bg-red-500';
-      document.getElementById(val).classList.add(col);
-      temp2 = val;
+      document.getElementById(keyCode).classList.add(col);
+      temp2 = keyCode;
       score = 0;
       hideElementByID("play-ground");
       visibleElementByID("score-board");
