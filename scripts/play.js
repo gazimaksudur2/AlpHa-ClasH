@@ -21,65 +21,21 @@ const num = randomAlpha() + 65;
 let temp = (parseInt(Math.floor(Math.random()*100))&1?num:(num+32));
 let val = String.fromCharCode(temp);
 let col,valTemp;
+let escaped = false;
 
-// console.log(val,num);
 alpha.innerText = val;
+document.getElementById(val.toLowerCase()).classList.add('bg-yellow-500');
 
+function playagain() {
+  life = 3;
+  lifeNow.innerText = life;
+  hideElementByID("score-board");
+  hideElementByID("home");
+  visibleElementByID("play-ground");
 
-function myEventHandler(event) {
-  var keyCode = event.key;
-//   console.log('your input is ',keyCode,'and value is : ',val);
+  document.removeEventListener("keyup", myEventHandler);
 
-  if (keyCode !== "Shift") {
-    if(typeof valTemp !== 'undefined'){
-        // console.log('temp2 : ',temp2,'& type is : ',typeof temp2);
-        const keycol = document.getElementById(valTemp);
-        keycol.classList.remove(col);
-    }
-    
-    if (keyCode === val) {
-      score++;
-      valTemp = val.toLowerCase();
-      col = 'bg-green-500';
-      document.getElementById(valTemp).classList.add(col);
-    //   temp2 = val;
-      console.log("you are correct.", keyCode);
-      const num1 = randomAlpha() + 65;
-      let temp = (parseInt(Math.floor(Math.random()*100))&1?num1:(num1+32));
-      val = String.fromCharCode(temp);
-
-      // console.log(val,num);
-      alpha.innerText = val;
-    } else if (--life) {
-      lifeNow.innerText = life;
-      valTemp = keyCode.toLowerCase();
-      col = 'bg-red-500';
-      document.getElementById(valTemp).classList.add(col);
-    //   temp2 = val;
-    } else {
-    //   console.log("you are not correct.", keyCode);
-      totalScore.innerText = score;
-      valTemp = keyCode.toLowerCase();
-      col = 'bg-red-500';
-      document.getElementById(valTemp).classList.add(col);
-    //   temp2 = val;
-      score = 0;
-      hideElementByID("play-ground");
-      visibleElementByID("score-board");
-    }
-  }
-  scoreNow.innerText = score;
-  // if((keyCode>='A'&&keyCode<='Z')||(keyCode>='a'&&keyCode<='z')){
-  //     if(keyCode===val){
-  //         console.log('you are correct.',keyCode);
-  //     }else{
-  //         console.log('you are not correct.',keyCode);
-  //         // hideElementByID('play-ground');
-  //         // visibleElementByID('score-board');
-  //     }
-  // }
-
-  // console.log('Key code: ' + keyCode);
+  document.addEventListener("keydown", myEventHandler);
 }
 
 function playStart() {
@@ -89,15 +45,58 @@ function playStart() {
   document.addEventListener("keydown", myEventHandler);
 }
 
-playAgain.onclick = playagain;
 
-function playagain() {
-  life = 3;
-  lifeNow.innerText = life;
-  hideElementByID("score-board");
-  visibleElementByID("play-ground");
+function myEventHandler(event) {
+  var keyCode = event.key;
+  console.log('encountered --> ',keyCode , '& val is : ',val);
 
-  document.removeEventListener("keyup", myEventHandler);
+  if (keyCode !== "Shift") {
+    if(typeof valTemp !== 'undefined'&& (!escaped)){
+        const keycol = document.getElementById(valTemp);
+        keycol.classList.remove(col);
+        document.getElementById(valTemp).classList.remove('bg-yellow-500');
+    }
 
-  document.addEventListener("keydown", myEventHandler);
+    if(keyCode === 'Escape'){
+      totalScore.innerText = score;
+      valTemp = keyCode.toLowerCase();
+      score = 0;
+      hideElementByID("play-ground");
+      visibleElementByID("score-board");
+      escaped = true;
+    }else escaped = false;
+     
+    if (keyCode === val) {
+      score++;
+      valTemp = val.toLowerCase();
+      col = 'bg-green-500';
+      document.getElementById(valTemp).classList.add(col);
+      console.log("you are correct.", keyCode);
+      const num1 = randomAlpha() + 65;
+      let temp = (parseInt(Math.floor(Math.random()*100))&1?num1:(num1+32));
+      val = String.fromCharCode(temp);
+
+      alpha.innerText = val;
+      document.getElementById(val.toLowerCase()).classList.add('bg-yellow-500');
+    } else if (--life > 0) {
+      lifeNow.innerText = life;
+      valTemp = keyCode.toLowerCase();
+      col = 'bg-red-500';
+      document.getElementById(valTemp).classList.add(col);
+    } else {
+      totalScore.innerText = score;
+      valTemp = keyCode.toLowerCase();
+      score = 0;
+      scoreNow.innerText = score;
+      hideElementByID("play-ground");
+      visibleElementByID("score-board");
+    }
+  }
+  scoreNow.innerText = score;
+  if(keyCode === 'Enter' && document.getElementById('play-ground').classList.contains('hidden')){
+    escaped = true;
+    playagain();
+  }
 }
+
+playAgain.onclick = playagain;
